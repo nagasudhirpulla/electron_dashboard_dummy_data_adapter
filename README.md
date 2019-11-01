@@ -1,6 +1,6 @@
 ## Dummy Data Adapter
 
-This is a data adapter template project in WPF made for Electron Dashboard.
+This is a data adapter template project in WPF made for Electron Dashboard. Know more about Data Adapters for Electron Dashboard [here](https://github.com/nagasudhirpulla/electron_react_dashboard/wiki/Data-Adapters).
 
 You can use this template project as a starting point to create a custom data adapter for Electron Dashboard
 
