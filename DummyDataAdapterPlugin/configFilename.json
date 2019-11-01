@@ -1,0 +1,7 @@
+{
+  "configFilename": "configFilename.json",
+  "DataHost": "10.10.10.5",
+  "DataDbName": "data_db_name",
+  "DataUserName": "uname",
+  "DataPassword": "pass"
+}
