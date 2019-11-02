@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B53A2B68-B110-48F8-97BA-D190DBF79ABE}</ProjectGuid>
+    <ProjectGuid>{E52D2F98-591D-48D9-8787-7480D3D40E5D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ElectronDashboardDummyDataAdapter</RootNamespace>
-    <AssemblyName>ElectronDashboardDummyDataAdapter</AssemblyName>
+    <RootNamespace>ElectronDashboardExcelDataAdapter</RootNamespace>
+    <AssemblyName>ElectronDashboardExcelDataAdapter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,14 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ElectronDashboardDummyDataAdapter.Program</StartupObject>
+    <StartupObject>ElectronDashboardExcelDataAdapter.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,21 +64,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="DataFetcher.cs" />
-    <Compile Include="MeasPickerWindow.xaml.cs">
-      <DependentUpon>MeasPickerWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsEditVM.cs" />
-    <Page Include="AdapterConfigWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AdapterConfigWindow.xaml.cs">
-      <DependentUpon>AdapterConfigWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataFetcher.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MeasPickerWindow.xaml">
@@ -84,6 +83,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeasPickerWindow.xaml.cs">
+      <DependentUpon>MeasPickerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -113,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdapterUtils\AdapterUtils.csproj">
-      <Project>{53c5a1df-bf5e-4bd9-9135-e71001f62cd9}</Project>
+      <Project>{53C5A1DF-BF5E-4BD9-9135-E71001F62CD9}</Project>
       <Name>AdapterUtils</Name>
     </ProjectReference>
   </ItemGroup>
