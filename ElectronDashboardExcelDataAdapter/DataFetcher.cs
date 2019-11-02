@@ -66,11 +66,15 @@ namespace ElectronDashboardExcelDataAdapter
                 var timeCell = sheet.Cells[rowIter, measTimeColInd];
                 var valCell = sheet.Cells[rowIter, measDataColInd];
                 // check if cell type is time
-                if (timeCell.Value is DateTime)
+                if (timeCell.Value is DateTime valTime)
                 {
-                    fetchResult.Add(TimeUtils.ToMillisSinceUnixEpoch((DateTime)timeCell.Value));
-                    // check if we have a numeric value in the data column
-                    fetchResult.Add((valCell.Value is double) ? valCell.Value : null);
+                    // we need to convert data time to utc time before comparing
+                    if ((valTime.ToUniversalTime() >= startTime) && (valTime.ToUniversalTime() <= endTime))
+                    {
+                        fetchResult.Add(TimeUtils.ToMillisSinceUnixEpoch(valTime));
+                        // check if we have a numeric value in the data column
+                        fetchResult.Add((valCell.Value is double) ? valCell.Value : null);
+                    }
                 }
             }
             outStr = String.Join(",", fetchResult);
