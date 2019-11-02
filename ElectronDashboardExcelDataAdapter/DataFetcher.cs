@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AdapterUtils;
 using OfficeOpenXml;
 
@@ -19,14 +20,15 @@ namespace ElectronDashboardExcelDataAdapter
             DateTime endTime = prms.ToTime;
             // get measurement data sources
             string[] measSegments = measId.Split('|');
-            if (measSegments.Length != 3)
+            if (measSegments.Length != 4)
             {
                 ConsoleUtils.FlushChunks("");
                 return;
             }
             string measFilename = measSegments[0];
-            string measDataCol = measSegments[1];
-            string measTimeCol = measSegments[2];
+            string measSheetname = measSegments[1];
+            string measDataCol = measSegments[2];
+            string measTimeCol = measSegments[3];
             // check if file exists
             if (!File.Exists(measFilename))
             {
@@ -37,7 +39,12 @@ namespace ElectronDashboardExcelDataAdapter
             List<string> colNames = new List<string>();
             FileInfo excelFileInfo = new FileInfo(measFilename);
             ExcelPackage package = new ExcelPackage(excelFileInfo);
-            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+            ExcelWorksheet sheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == measSheetname);
+            if (sheet == null)
+            {
+                ConsoleUtils.FlushChunks("");
+                return;
+            }
             foreach (var rowCell in sheet.Cells[sheet.Dimension.Start.Row, sheet.Dimension.Start.Column, 1, sheet.Dimension.End.Column])
             {
                 colNames.Add(rowCell.Text);

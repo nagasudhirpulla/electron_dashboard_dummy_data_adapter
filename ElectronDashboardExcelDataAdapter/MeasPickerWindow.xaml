@@ -14,6 +14,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -25,14 +26,18 @@
                 <Button x:Name="OpenExcelFilenameBtn" Click="OpenExcelFilenameBtn_Click" Content="Browse"></Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <Label Content="Sheet name - "></Label>
+                <ComboBox x:Name="SheetNamesComboBox" SelectionChanged="SheetNamesComboBox_SelectionChanged" MinWidth="50"></ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="3">
                 <Label Content="Time Column - "></Label>
                 <ComboBox x:Name="TimeColumnNamesComboBox" MinWidth="50"></ComboBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <StackPanel Orientation="Horizontal" Grid.Row="4">
                 <Label Content="Data Column - "></Label>
                 <ComboBox x:Name="DataColumnNamesComboBox" MinWidth="50"></ComboBox>
             </StackPanel>
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
                 <Button Content="OK" Click="OK_Click" Padding="8" Margin="8"></Button>
                 <Button Content="Cancel" Click="Cancel_Click" Padding="8" Margin="8"></Button>
             </StackPanel>

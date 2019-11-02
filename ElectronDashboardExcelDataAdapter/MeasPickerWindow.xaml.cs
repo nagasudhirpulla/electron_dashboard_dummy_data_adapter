@@ -38,9 +38,10 @@ namespace ElectronDashboardExcelDataAdapter
         {
             // send selected measurement inforamtion to the console
             string excelFilename = ExcelFilenameTextBox.Text;
+            string selectedSheet = SheetNamesComboBox.SelectedItem?.ToString();
             string selectedDataCol = DataColumnNamesComboBox.SelectedItem?.ToString();
             string selectedTimeCol = TimeColumnNamesComboBox.SelectedItem?.ToString();
-            string resultText = $"{excelFilename}|{selectedDataCol}|{selectedTimeCol}";
+            string resultText = $"{excelFilename}|{selectedSheet}|{selectedDataCol}|{selectedTimeCol}";
             ConsoleUtils.FlushMeasData(resultText, resultText, resultText);
 
             // Close the app after sending the data
@@ -50,6 +51,38 @@ namespace ElectronDashboardExcelDataAdapter
         private void ShutdownApp()
         {
             Application.Current.Shutdown();
+        }
+
+        private void SetColumnOptionsForSelectedSheet()
+        {
+            //check if file exists
+            string fname = ExcelFilenameTextBox.Text;
+            if (!File.Exists(fname))
+            {
+                return;
+            }
+
+            ExcelPackage package = new ExcelPackage(new FileInfo(fname));
+            // populate columns of the selected sheet- https://stackoverflow.com/a/13162400/2746323
+            ExcelWorksheet sheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == SheetNamesComboBox.SelectedItem?.ToString());
+            if (sheet == null)
+            {
+                return;
+            }
+
+            List<string> columnNames = new List<string>();
+            foreach (var rowCell in sheet.Cells[sheet.Dimension.Start.Row, sheet.Dimension.Start.Column, 1, sheet.Dimension.End.Column])
+            {
+                columnNames.Add(rowCell.Text);
+            }
+            // changing combobox options
+            DataColumnNamesComboBox.ItemsSource = columnNames;
+            TimeColumnNamesComboBox.ItemsSource = columnNames;
+            if (columnNames.Count > 0)
+            {
+                DataColumnNamesComboBox.SelectedIndex = 0;
+                TimeColumnNamesComboBox.SelectedIndex = 0;
+            }
         }
 
         private void OpenExcelFilenameBtn_Click(object sender, RoutedEventArgs e)
@@ -64,25 +97,29 @@ namespace ElectronDashboardExcelDataAdapter
                 if (!File.Exists(fname))
                 {
                     MessageBox.Show($"could not find a file by name - {fname}");
+                    return;
                 }
-                //populate excel columns - https://stackoverflow.com/a/13162400/2746323
-                List<string> columnNames = new List<string>();
+
+                // populate sheet names
                 FileInfo excelFileInfo = new FileInfo(fname);
                 ExcelPackage package = new ExcelPackage(excelFileInfo);
-                ExcelWorksheet sheet = package.Workbook.Worksheets[1];
-                foreach (var rowCell in sheet.Cells[sheet.Dimension.Start.Row, sheet.Dimension.Start.Column, 1, sheet.Dimension.End.Column])
+                List<string> sheetNames = package.Workbook.Worksheets.Select(x => x.Name).ToList();
+                if (sheetNames.Count == 0)
                 {
-                    columnNames.Add(rowCell.Text);
+                    MessageBox.Show($"No sheets found in - {fname}");
+                    return;
                 }
                 // changing combobox options
-                DataColumnNamesComboBox.ItemsSource = columnNames;
-                TimeColumnNamesComboBox.ItemsSource = columnNames;
-                if (columnNames.Count > 0)
-                {
-                    DataColumnNamesComboBox.SelectedIndex = 0;
-                    TimeColumnNamesComboBox.SelectedIndex = 0;
-                }
+                SheetNamesComboBox.ItemsSource = sheetNames;
+                SheetNamesComboBox.SelectedIndex = 0;
+
+                SetColumnOptionsForSelectedSheet();
             }
+        }
+
+        private void SheetNamesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetColumnOptionsForSelectedSheet();
         }
     }
 }
