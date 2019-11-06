@@ -4,10 +4,9 @@ This is a data adapter template project in WPF made for Electron Dashboard. Know
 
 You can use this template project as a starting point to create a custom data adapter for Electron Dashboard
 
+The folder *DummyDataAdapterPluginFiles* can be added to electron dashboard data adapters. 
 
-The folder DummyDataAdapterPlugin can be added to electron dashboard. 
-
-It is created by copying the contents of bin/Debug folder and adding manifest.json file to the folder. The manifest.json file used in the folder is as shown below
+It is created by copying the contents of bin/Debug folder into a folder and adding manifest.json file to it. The manifest.json file used in the folder is as shown below
 ```json
 {
     "entry": "ElectronDashboardDummyDataAdapter.exe",
